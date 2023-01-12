@@ -2,31 +2,31 @@
     {
         "name": "Aikia",
         "description": "A webpage for a funiture store, in the Yuugaku server on minecraft.",
-        "url": "www.bouncyjelly.com/Aikia"
+        "url": "Aikia"
     },
     {
         "name": "Digital Rain",
         "description": "A webpage with falling kanji colored in everyone's favourite, Matrix Green.",
-        "url": "www.bouncyjelly.com/digitalrain"
+        "url": "digitalrain"
     },
     {
         "name": "Paint.Web",
         "description": "A silly imitation of a drawing program.",
-        "url": "www.bouncyjelly.com/paint.web"
+        "url": "paint.web"
     },
     {
         "name": "Clock",
         "description": "An average digital clock.",
-        "url": "www.bouncyjelly.com/simpleclock"
+        "url": "simpleclock"
     },
     {
         "name": "Tic Tac Toe",
         "description": "The title.",
-        "url": "www.bouncyjelly.com/simpletictactoe"
+        "url": "simpletictactoe"
     },
     {
         "name": "Calc",
         "description": "A calculator, that can break *very* easily.",
-        "url": "www.bouncyjelly.com/simplcalc"
+        "url": "simplcalc"
     }
 ]

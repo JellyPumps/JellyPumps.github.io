@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.js"></script>
     <!--FontAwesome-->
     <script src="https://kit.fontawesome.com/31149d48b0.js" crossorigin="anonymous"></script>
+    
 </head>
 <body>
     <!--Navigation Bar-->
@@ -31,9 +32,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="#projectLinks">Project Links</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://www.discord.com/users/892622841189642252" target="_blank"><i class="fab fa-discord"></i></a>
@@ -76,8 +74,8 @@
                         <div class="col-md-6">
                             <ul>
                                 <li>Aliases: BouncyJelly, JellyPumps</li>
-                                <li>Age: 16</li>
-                                <li>Occupation: Student</li>
+                                <li id="age"></li>
+                                <li id="occu"></li>
 
                             </ul>
                         </div>
@@ -89,53 +87,41 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     <!--Portfolio-->
     <section id="portfolio">
-        <div class="container mt-3">
-            <h1 class="text-center">Portfolio</h1>
+        <div class="container">
             <div class="row">
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/simpleclock.svg?link_target=_blank"></object>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/simpletictactoe.svg?link_target=_blank"></object>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/simplecalc.svg?link_target=_blank"></object>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/paint.web.svg?link_target=_blank"></object>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/digitalrain.svg?link_target=_blank"></object>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <object type="image/svg+xml" data="https://gh-card.dev/repos/JellyPumps/BunpouRenshuu.svg?link_target=_blank"></object>
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h1>Portfolio</h2>
+                        <button id="career-button" class="btn btn-primary mr-3">Career</button>
+                        <button id="github-repositories-button" class="btn btn-primary mr-3">GitHub Repositories</button>
+                        <button id="games-button" class="btn btn-primary mr-3">Games</button>
+                        <button id="live-projects-button" class="btn btn-primary">Live Projects</button>
+                    </div>
                 </div>
             </div>
-    </section>
-    <!--Project Links-->
-    <section id="projectLinks">
-        <div class="container mt-3">
-            <h1 class="text-center">Project Links</h1>
             <div class="row">
-                <div class="col-lg-4 mt-4">
-                    <a class="button-86" href="simpleclock" target="_blank">Simple Clock</a>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <a class="button-86" href="simpletictactoe" target="_blank">Simple Tic Tac Toe</a>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <a class="button-86" href="simplecalc" target="_blank">Simple Calc</a>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <a class="button-86" href="paint.web" target="_blank">Paint.Web</a>
-                </div>
-                <div class="col-lg-4 mt-4">
-                    <a class="button-86" href="digitalrain" target="_blank">Digital Rain</a>
+                <div class="col-md-12">
+                    <div id="career">
+                        <div class="col-lg-8">
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li>2020-2024: Highschool</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="github-repositories"></div>
+                    <div id="games-container"></div>
+                    <div id="live-projects"></div>
                 </div>
             </div>
+        </div>
     </section>
     <!--Javascript-->
     <script src="index.js"></script>

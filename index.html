@@ -9,7 +9,77 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <!--Javascript-->
+
+    <!-- Navbar -->
+    <div id="bouncynavbar" class="bnb-home">
+      <div id="bouncybarlogo">
+        <h1>
+          <a href="/" title="Return to home page">BouncyJelly</a>
+        </h1>
+      </div>
+      <div id="bouncynavbarmenu">
+        <ul id="bouncynavbarlist">
+          <li id="bnb-home">
+            <a href="/" title="About, news, projects etc.">Home</a>
+          </li>
+          <li id="bnb-games">
+            <a href="/games.html" title="An overview of my games">Games</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+     <!-- Footer -->
+     <div class="footer">
+        <p>Sarthak Rai : 21 - 09 - 2023</p>
+     </div>
+    
+    <!-- Body Content -->
+    <div id="content">
+      <div id="bdev-navbar"></div>
+      <div id="content-left-wrapper">
+        <div id="content-left">
+          <div id="intro" class="box">
+            <h2>Sarthak Rai</h2>
+            <p>
+              Welcome to my
+              <strong>Portfolio</strong>
+            </p>
+            <p>I am a
+              <strong id="age"></strong>
+              year old, 
+              <strong>Indian</strong>,
+              <strong id="career"></strong>
+            </p>
+            <p>Currently aiming to study at <strong>九州大学</strong></p>
+          </div>
+          <div id="latest-video" class="box">
+            <h2>Latest Video</h2>
+            <iframe src="https://www.youtube.com/embed?listType=playlist&list=UUJ7MdBhZULZydwE4oeNsPhw" frameborder="0"></iframe>
+          </div>
+          <div id="next-three" class="box">
+            <h2>Watch these next!</h2>
+            <iframe src="https://www.youtube.com/embed?listType=playlist&list=UUJ7MdBhZULZydwE4oeNsPhw&index=2" frameborder="0"></iframe>
+            <iframe src="https://www.youtube.com/embed?listType=playlist&list=UUJ7MdBhZULZydwE4oeNsPhw&index=3" frameborder="0"></iframe>
+            <iframe src="https://www.youtube.com/embed?listType=playlist&list=UUJ7MdBhZULZydwE4oeNsPhw&index=4" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+      <div id="content-right">
+        <div id="blog" class="box">
+          <h2>Blog</h2>
+        </div>
+        <div id="web-projects" class="box">
+          <h2>Web Projects</h2>
+        </div>
+      </div>
+    </div>
+
     <script src="index.js"></script>
+    <script src="blog.js"></script>
+    <script type="text/javascript"
+    src="https://bouncyjellynews.blogspot.com/feeds/posts/default?alt=json-in-script&callback=blog_card">
+    </script>
+    <script src="webprojects.js"></script>
 </body>
 </html>

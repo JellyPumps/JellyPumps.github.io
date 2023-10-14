@@ -172,10 +172,3 @@ div.footer {
   border-top: 5px var(--color-cream) solid !important;
   text-align: center;
 }
-
-/* Icons */
-.fa {
-  padding:          5px;
-  color:            var(--color-cream);
-  text-decoration:  none;
-}

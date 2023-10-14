@@ -16,6 +16,7 @@ async function fetchData() {
 
         card_link.textContent = obj.title;
         card_link.href        = obj.link;
+        card_link.target       = "_"
         card_desc.textContent = obj.description;
 
         card.appendChild(card_link);

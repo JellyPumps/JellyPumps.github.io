@@ -151,6 +151,15 @@ h2 {
 
 #blog-card a:hover { color: var(--color-taupe); }
 
+#portrait {
+  max-width: 100px;
+  height:    auto;
+}
+
+#socials a {
+  text-decoration: none !important;
+}
+
 /* Footer */
 
 div.footer {
@@ -162,4 +171,11 @@ div.footer {
   background: var(--color-sage-green) !important;
   border-top: 5px var(--color-cream) solid !important;
   text-align: center;
+}
+
+/* Icons */
+.fa {
+  padding:          5px;
+  color:            var(--color-cream);
+  text-decoration:  none;
 }

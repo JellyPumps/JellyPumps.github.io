@@ -28,7 +28,12 @@ export default {
                 id: entry.id.$t.split('/')[4],
                 title: entry.title.$t,
                 link: entry.link[0].href,
-                body: entry.content.$t,
+                body: entry.content.$t
+                    .replace(/<br>\s*\/?/gi, "\n")
+                    .replace(/<\/p>/gi, "\n")
+                    .replace(/<\/?[^>]+(>|$)/g, "")
+                    .replace(/&nbsp;/g, "")
+                    .replace(/^\s+|\s+$/g, ""),
             }))
         }
 
@@ -42,9 +47,6 @@ export default {
 
 <style scoped>
 .blog-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     padding: 2em;
     border-radius: 15px;
     margin: 1em 0;

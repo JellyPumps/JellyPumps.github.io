@@ -2,80 +2,80 @@
 
 import styles from "./page.module.css";
 import { db } from "../firebase/firebase";
-import { collection, getDocs } from 'firebase/firestore';
+import { ref, get } from "firebase/database";
 import { useEffect, useState } from "react";
 
 type Game = {
-  name: string,
-  icon: string,
-  banner: string,
-  current: boolean,
-}
+  name: string;
+  icon: string;
+  banner: string;
+  current: boolean;
+  year: number;
+  desc: string;
+};
 
 export default function Home() {
-  const [games, set_games] = useState<Game[]>([]);
-  const [current_index, set_current_index] = useState(0);
+  const [games, setGames] = useState<Game[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const fetch_games = async () => {
-      const snapshot = await getDocs(collection(db, "Games"));
-      let games_data: Game[] = snapshot.docs.map(doc => doc.data() as Game);
-
-      games_data.sort((a, b) => (b.current ? 1 : 0) - (a.current ? 1 : 0));
-      set_games(games_data);
+    const fetchGames = async () => {
+      try {
+        const snapshot = await get(ref(db, "Games"));
+        if (snapshot.exists()) {
+          const gamesData: Game[] = Object.values(snapshot.val()) as Game[];
+          gamesData.sort((a, b) => (b.current ? 1 : 0) - (a.current ? 1 : 0));
+          setGames(gamesData);
+        } else {
+          console.log("No games found");
+        }
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
     };
 
-    fetch_games();
+    fetchGames();
   }, []);
 
-  const next = () => set_current_index((prev) => (prev + 1) % games.length);
-  const prev = () => set_current_index((prev) => (prev - 1 + games.length) % games.length);
+  if (games.length === 0) return <div className={styles.loading}>Loading...</div>;
 
-  if (games.length === 0) return <div>OwO</div>;
+  const currentGame = games[currentIndex];
 
   return (
     <div className={styles.page}>
-      <main 
+      <main
         className={styles.main}
         style={{
-          backgroundImage: `url(${games[current_index].banner})`,
+          backgroundImage: `url(${currentGame.banner})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          minHeight: "100vh",
-          color: "#fff",
         }}
       >
         {/* Navbar */}
-        <h1>BouncyJelly</h1>
+        <nav className={styles.navbar}>
+          <h1 className={styles.logo}>BouncyJelly</h1>
+          <ul className={styles.menu}>
+            <li>Home</li>
+            <li>Blog</li>
+          </ul>
+          <div className={styles.search}>🔍</div>
+        </nav>
+
+        {/* Game Info */}
+        <div className={styles.info}>
+          <h2 className={styles.title}>{currentGame.name}</h2>
+          <p className={styles.year}>{currentGame.year}</p>
+          <p className={styles.description}>{currentGame.desc}</p>
+        </div>
 
         {/* Carousel */}
         <div className={styles.carousel}>
-          <button onClick={prev} className={styles.navButton}>
-            ◀
-          </button>
-
-          <img
-            src={games[current_index].icon}
-            alt={games[current_index].name}
-            className={styles.gameIcon}
-          />
-
-          <button onClick={next} className={styles.navButton}>
-            ▶
-          </button>
-        </div>
-
-        <h2>{games[current_index].name}</h2>
-
-        {/* Carousel indicators */}
-        <div className={styles.indicators}>
-          {games.map((_, index) => (
-            <span
+          {games.map((game, index) => (
+            <div
               key={index}
-              className={`${styles.dot} ${
-                index === current_index ? styles.active : ""
-              }`}
-              onClick={() => set_current_index(index)}
+              className={`${styles.card} ${index === currentIndex ? styles.active : ""}`}
+              onClick={() => setCurrentIndex(index)}
+              style={{ backgroundImage: `url(${game.icon})` }}
             />
           ))}
         </div>

@@ -30,32 +30,32 @@ enum PageType {
 
 export default function Home() {
   const [pageType, setPageType] = useState<PageType>(PageType.Games);
-
   const [games, setGames] = useState<Game[]>([]);
   const [githubProjects, setGithubProjects] = useState<GithubProject[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  let siteTitle = pageType === PageType.Games ? "BouncyJelly" : "Sarthak Rai";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const path = pageType === PageType.Games ? "Games" : "Github";
         const snapshot = await get(ref(db, path));
-
         if (!snapshot.exists()) return;
 
         const data = Object.values(snapshot.val());
 
         if (pageType === PageType.Games) {
           const gamesData = data as Game[];
-          gamesData.sort((a, b) => (b.current ? 1 : 0) - (a.current ? 1 : 0));
+          gamesData.sort((a, b) => Number(b.current) - Number(a.current));
           setGames(gamesData);
-          setCurrentIndex(0);
         } else {
           const githubData = data as GithubProject[];
-          githubData.sort((a, b) => (b.current ? 1 : 0) - (a.current ? 1 : 0));
+          githubData.sort((a, b) => Number(b.current) - Number(a.current));
           setGithubProjects(githubData);
-          setCurrentIndex(0);
         }
+
+        setCurrentIndex(0);
       } catch (err) {
         console.error("Firebase error:", err);
       }
@@ -71,21 +71,20 @@ export default function Home() {
     return <div className={styles.loading}>Loading...</div>;
   }
 
-  const currentGame = games[currentIndex];
-  const currentProject = githubProjects[currentIndex];
-
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        {pageType === PageType.Games && (
+        {/* ===== GAME BANNER ===== */}
+        {pageType === PageType.Games && games[currentIndex] && (
           <div
             className={styles.banner}
             style={{
-              backgroundImage: `url(${currentGame.banner})`,
+              backgroundImage: `url(${games[currentIndex].banner})`,
             }}
           />
         )}
 
+        {/* ===== GITHUB BACKGROUND ===== */}
         {pageType === PageType.Github && (
           <div className={styles.waveBackground}>
             <div className={styles.wave} />
@@ -94,22 +93,23 @@ export default function Home() {
         )}
 
         <nav className={styles.navbar}>
-          <h1 className={styles.logo}>BouncyJelly</h1>
+          <h1 className={styles.logo}>{siteTitle}</h1>
           <ul className={styles.menu}>
             <li onClick={() => setPageType(PageType.Games)}>Games</li>
-            <li onClick={() => setPageType(PageType.Github)}>
-              Github Projects
-            </li>
+            <li onClick={() => setPageType(PageType.Github)}>Github Projects</li>
           </ul>
           <div className={styles.search}>🔍</div>
         </nav>
 
-        {pageType === PageType.Games && (
+        {/* ===== GAMES PAGE ===== */}
+        {pageType === PageType.Games && games[currentIndex] && (
           <>
             <div className={styles.info}>
-              <h2 className={styles.title}>{currentGame.name}</h2>
-              <p className={styles.year}>{currentGame.year}</p>
-              <p className={styles.description}>{currentGame.desc}</p>
+              <h2 className={styles.title}>{games[currentIndex].name}</h2>
+              <p className={styles.year}>{games[currentIndex].year}</p>
+              <p className={styles.description}>
+                {games[currentIndex].desc}
+              </p>
             </div>
 
             <div className={styles.carousel}>
@@ -120,19 +120,36 @@ export default function Home() {
                     index === currentIndex ? styles.active : ""
                   }`}
                   onClick={() => setCurrentIndex(index)}
-                  style={{ backgroundImage: `url(${game.icon})` }}
-                />
+                >
+                  {game.icon ? (
+                    <div
+                      className={styles.cardImage}
+                      style={{ backgroundImage: `url(${game.icon})` }}
+                    />
+                  ) : (
+                    <div className={styles.animatedPlaceholder}>
+                      <span>{game.name[0]}</span>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </>
         )}
 
-        {pageType === PageType.Github && (
+        {/* ===== GITHUB PAGE ===== */}
+        {pageType === PageType.Github && githubProjects[currentIndex] && (
           <>
             <div className={styles.info}>
-              <h2 className={styles.title}>{currentProject.name}</h2>
-              <p className={styles.year}>{currentProject.year}</p>
-              <p className={styles.description}>{currentProject.desc}</p>
+              <h2 className={styles.title}>
+                {githubProjects[currentIndex].name}
+              </h2>
+              <p className={styles.year}>
+                {githubProjects[currentIndex].year}
+              </p>
+              <p className={styles.description}>
+                {githubProjects[currentIndex].desc}
+              </p>
             </div>
 
             <div className={styles.carousel}>
@@ -143,9 +160,19 @@ export default function Home() {
                     index === currentIndex ? styles.active : ""
                   }`}
                   onClick={() => setCurrentIndex(index)}
-                  style={{ backgroundImage: `url(${proj.icon})` }}
                   title={proj.name}
-                />
+                >
+                  {proj.icon ? (
+                    <div
+                      className={styles.cardImage}
+                      style={{ backgroundImage: `url(${proj.icon})` }}
+                    />
+                  ) : (
+                    <div className={styles.animatedPlaceholder}>
+                      <span>{proj.name[0]}</span>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </>

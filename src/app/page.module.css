@@ -1,46 +1,97 @@
 .page {
-  --background: #121211;
-  --foreground: rgba(30,30,30,0.85);
-  --text-primary: #fff;
-  --text-secondary: #aaa;
+  --background: #0e0e10;
+  --foreground: rgba(24, 24, 27, 0.88);
+  --glass: rgba(255, 255, 255, 0.06);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --accent: #7c7cff;
 
   display: flex;
   height: 100vh;
   align-items: center;
   justify-content: center;
-  font-family: "Geist Sans", sans-serif;
-  background-color: var(--background);
+  font-family: "Geist Sans", system-ui, sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #1a1a22 0%,
+    var(--background) 60%
+  );
 }
 
 .main {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 90vh;
   width: 90vw;
-  background-color: var(--foreground);
-  padding: 20px;
-  border-radius: 25px;
+  padding: 24px 32px;
+  border-radius: 28px;
   color: var(--text-primary);
-  position: relative;
+  background: var(--foreground);
+  backdrop-filter: blur(16px);
   overflow: hidden;
-  background-blend-mode: darken;
+}
+
+.banner {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.45);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+.waveBackground {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.wave {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(124, 124, 255, 0.25),
+    transparent 60%
+  );
+  animation: waveMove 20s linear infinite;
+}
+
+.wave:nth-child(2) {
+  animation-duration: 30s;
+  opacity: 0.5;
+}
+
+@keyframes waveMove {
+  from {
+    transform: translate(-25%, -25%) rotate(0deg);
+  }
+  to {
+    transform: translate(-25%, -25%) rotate(360deg);
+  }
 }
 
 .navbar {
+  position: relative;
+  z-index: 2;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .menu {
   display: flex;
-  gap: 20px;
+  gap: 28px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -48,62 +99,110 @@
 
 .menu li {
   cursor: pointer;
+  color: var(--text-secondary);
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.menu li:hover {
+  color: var(--text-primary);
+}
+
+.menu li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.menu li:hover::after {
+  width: 100%;
 }
 
 .search {
   cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.search:hover {
+  opacity: 1;
 }
 
 .info {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 32px;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .year {
   font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .description {
   font-size: 1rem;
   color: var(--text-secondary);
-  max-width: 70%;
+  max-width: 680px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 .carousel {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
-  gap: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 120px;
+  gap: 24px;
+  padding-bottom: 24px;
+  margin-bottom: 80px;
   overflow-x: auto;
-  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
 }
 
 .card {
   width: 150px;
   height: 150px;
-  padding: 20px;
-  border-radius: 25px;
+  border-radius: 24px;
   background-size: cover;
   background-position: center;
   cursor: pointer;
-  transition: transform 0.3s, opacity 0.3s;
   flex-shrink: 0;
-  opacity: 0.6;
+  opacity: 0.5;
+  transform: scale(0.95);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 .card.active {
-  transform: scale(1.3);
   opacity: 1;
+  transform: scale(1.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .loading {

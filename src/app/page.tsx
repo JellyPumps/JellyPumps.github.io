@@ -1,183 +1,77 @@
 "use client";
 
-import styles from "./page.module.css";
-import { db } from "../firebase/firebase";
-import { ref, get } from "firebase/database";
-import { useEffect, useState } from "react";
+import "./global.css";
+import "./styles/home.css";
+import "./styles/start.css";
+import "./styles/footer.css";
+import { Cinzel } from "next/font/google";
+import RippleBackground from "./utilities/ripple_background";
+import Header from "./components/header";
+import Home from "./pages/home";
+import Footer from "./components/footer";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useBurnTransition } from "./utilities/use_burn_transition";
+import { useTransitionAudio } from "./utilities/use_transition_audio";
 
-type Game = {
-  name: string;
-  icon: string;
-  banner: string;
-  current: boolean;
-  year: number;
-  desc: string;
-};
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+});
 
-type GithubProject = {
-  name: string;
-  desc: string;
-  url: string;
-  icon: string;
-  current: boolean;
-  year: number;
-};
-
-enum PageType {
-  Games = "Games",
-  Github = "Github",
-}
-
-export default function Home() {
-  const [pageType, setPageType] = useState<PageType>(PageType.Games);
-  const [games, setGames] = useState<Game[]>([]);
-  const [githubProjects, setGithubProjects] = useState<GithubProject[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  let siteTitle = pageType === PageType.Games ? "BouncyJelly" : "Sarthak Rai";
-
+export default function Page() {
+  const [phase, setPhase] = useState<"start" | "burning" | "main">("start");
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { startFire, crossfadeToBackground, stopAll } = useTransitionAudio();
+ 
+  const handleComplete = useCallback(() => {
+    crossfadeToBackground();
+    setPhase("main");
+  }, [crossfadeToBackground]);
+ 
+  const { start, stop } = useBurnTransition(canvasRef, handleComplete);
+ 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const path = pageType === PageType.Games ? "Games" : "Github";
-        const snapshot = await get(ref(db, path));
-        if (!snapshot.exists()) return;
-
-        const data = Object.values(snapshot.val());
-
-        if (pageType === PageType.Games) {
-          const gamesData = data as Game[];
-          gamesData.sort((a, b) => Number(b.current) - Number(a.current));
-          setGames(gamesData);
-        } else {
-          const githubData = data as GithubProject[];
-          githubData.sort((a, b) => Number(b.current) - Number(a.current));
-          setGithubProjects(githubData);
-        }
-
-        setCurrentIndex(0);
-      } catch (err) {
-        console.error("Firebase error:", err);
-      }
-    };
-
-    fetchData();
-  }, [pageType]);
-
-  if (
-    (pageType === PageType.Games && games.length === 0) ||
-    (pageType === PageType.Github && githubProjects.length === 0)
-  ) {
-    return <div className={styles.loading}>Loading...</div>;
-  }
-
+    if (phase !== "main") return;
+    stop();
+    return () => { stopAll(); };
+  }, [phase]);
+ 
+  const handleEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    startFire();
+    setPhase("burning");
+    start(e.clientX, e.clientY);
+  };
+ 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        {/* ===== GAME BANNER ===== */}
-        {pageType === PageType.Games && games[currentIndex] && (
-          <div
-            className={styles.banner}
-            style={{
-              backgroundImage: `url(${games[currentIndex].banner})`,
-            }}
-          />
-        )}
+    <div className={cinzel.variable}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "fixed", inset: 0,
+          zIndex: 50,
+          pointerEvents: "none",
+          opacity: phase === "burning" ? 1 : 0,
+          transition: phase === "main" ? "opacity 0.5s ease" : "none",
+        }}
+      />
+ 
+      {phase === "start" && (
+        <div className="start-screen">
+          <button className="enter-button" onClick={handleEnter}>
+            Enter Experience
+          </button>
+        </div>
+      )}
+ 
+      <div style={{ display: phase === "start" ? "none" : "block" }}>
+        <RippleBackground />
+ 
+        <Header />
+ 
+        <Home />
 
-        {/* ===== GITHUB BACKGROUND ===== */}
-        {pageType === PageType.Github && (
-          <div className={styles.waveBackground}>
-            <div className={styles.wave} />
-            <div className={styles.wave} />
-          </div>
-        )}
-
-        <nav className={styles.navbar}>
-          <h1 className={styles.logo}>{siteTitle}</h1>
-          <ul className={styles.menu}>
-            <li onClick={() => setPageType(PageType.Games)}>Games</li>
-            <li onClick={() => setPageType(PageType.Github)}>Github Projects</li>
-          </ul>
-          <div className={styles.search}>🔍</div>
-        </nav>
-
-        {/* ===== GAMES PAGE ===== */}
-        {pageType === PageType.Games && games[currentIndex] && (
-          <>
-            <div className={styles.info}>
-              <h2 className={styles.title}>{games[currentIndex].name}</h2>
-              <p className={styles.year}>{games[currentIndex].year}</p>
-              <p className={styles.description}>
-                {games[currentIndex].desc}
-              </p>
-            </div>
-
-            <div className={styles.carousel}>
-              {games.map((game, index) => (
-                <div
-                  key={index}
-                  className={`${styles.card} ${
-                    index === currentIndex ? styles.active : ""
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                >
-                  {game.icon ? (
-                    <div
-                      className={styles.cardImage}
-                      style={{ backgroundImage: `url(${game.icon})` }}
-                    />
-                  ) : (
-                    <div className={styles.animatedPlaceholder}>
-                      <span>{game.name[0]}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* ===== GITHUB PAGE ===== */}
-        {pageType === PageType.Github && githubProjects[currentIndex] && (
-          <>
-            <div className={styles.info}>
-              <h2 className={styles.title}>
-                {githubProjects[currentIndex].name}
-              </h2>
-              <p className={styles.year}>
-                {githubProjects[currentIndex].year}
-              </p>
-              <p className={styles.description}>
-                {githubProjects[currentIndex].desc}
-              </p>
-            </div>
-
-            <div className={styles.carousel}>
-              {githubProjects.map((proj, index) => (
-                <div
-                  key={index}
-                  className={`${styles.card} ${
-                    index === currentIndex ? styles.active : ""
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                  title={proj.name}
-                >
-                  {proj.icon ? (
-                    <div
-                      className={styles.cardImage}
-                      style={{ backgroundImage: `url(${proj.icon})` }}
-                    />
-                  ) : (
-                    <div className={styles.animatedPlaceholder}>
-                      <span>{proj.name[0]}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </main>
+        <Footer />
+      </div>
     </div>
   );
 }

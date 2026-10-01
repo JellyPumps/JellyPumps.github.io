@@ -1,0 +1,105 @@
+.site-footer {
+  position: relative;
+  padding: 4rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--ember), transparent);
+}
+
+.site-footer::after {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 400px; height: 120px;
+  background: radial-gradient(ellipse at center, rgba(200,96,26,0.07), transparent 70%);
+  pointer-events: none;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-sigil {
+  width: 36px; height: 36px;
+  opacity: 0.6;
+  animation: rotate-slow 30s linear infinite;
+  filter: drop-shadow(0 0 6px var(--ember));
+}
+
+.footer-brand {
+  font-family: var(--font-cinzel);
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--rune);
+}
+
+.footer-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 200px;
+}
+
+.footer-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--stone), transparent);
+}
+
+.footer-gem {
+  width: 5px; height: 5px;
+  background: var(--stone);
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-links a {
+  font-family: var(--font-cinzel);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--bone);
+  text-shadow: 0 0 10px var(--ember);
+}
+
+.footer-sep {
+  color: var(--stone);
+  font-size: 0.5rem;
+}
+
+.footer-copy {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--stone);
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}

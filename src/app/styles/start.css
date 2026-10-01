@@ -1,0 +1,24 @@
+.start-screen {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #1a1410, #0a0806);
+}
+
+.enter-button {
+  font-family: var(--font-cinzel);
+  background: transparent;
+  border: 1px solid var(--ember);
+  color: var(--bone);
+  padding: 1rem 2rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.enter-button:hover {
+  box-shadow: 0 0 20px var(--ember);
+  color: var(--ember-bright);
+}

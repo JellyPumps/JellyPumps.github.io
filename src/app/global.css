@@ -1,0 +1,63 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+--ember: #c8601a;
+--ember-bright: #ff8c3a;
+--ash: #8a8070;
+--bone: #d4c9b0;
+--dark: #0a0806;
+--mid: #1a1410;
+--stone: #2a2218;
+--rune: #c4a747;
+--soul: #4a9eff;
+}
+
+body {
+    background: var(--dark);
+    color: var(--bone);
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+}
+
+.header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.9), transparent);
+}
+
+.brand {
+    font-family: var(--font-cinzel);
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--rune);
+    text-transform: uppercase;
+}
+
+.navigation-link {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    float: left;
+}
+
+.navigation-link a {
+    font-family: var(--font-cinzel);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+    padding: 14px 16px;
+}
+
+.navigation-link a:hover {
+    color: var(--bone);
+    text-shadow: 0 0 12px var(--ember);
+}
